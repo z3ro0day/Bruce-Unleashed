@@ -17,4 +17,4 @@ Some Subghz files i had to remove because of people who cant use them properly.
 
 Some thing in here are mine but a little amount.
 
-If there is something you want to add go to my discord or do a <pr>
+If there is something you want to add go to my discord (https://discord.gg/Uqg4ucKj) or do a pr
