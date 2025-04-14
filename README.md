@@ -3,7 +3,6 @@
 Do not use this for any illegal.
 I am not responsible for any laws you break.
 
-
 Some Subghz files i had to remove because of people who cant use them properly.
 This is why we can't have nice things.
 
@@ -15,5 +14,6 @@ If there is something you want to add go to my discord https://discord.gg/Uqg4uc
 thanks goes to 
 1 (https://github.com/FalsePhilosopher)
 2 (https://github.com/UberGuidoZ)
-3 (https://github.com/pr3y/Bruce/tree/main/sd_files)
+3(https://github.com/pr3y/Bruce/tree/main/sd_files)
+
 for these file.
