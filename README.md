@@ -8,7 +8,7 @@ This is why we can't have nice things.
 
 Some thing in here are mine but a little amount.
 
-If there is something you want to add go to my discord https://discord.gg/Uqg4ucKj
+If there is something you want to add go to my discord https://discord.gg/Jr3feT4uG4
 
 
 thanks goes to 
