@@ -10,6 +10,7 @@ Some thing in here are mine but a little amount.
 
 If there is something you want to add go to my discord https://discord.gg/Jr3feT4uG4
 
+![Alt text](https://images.app.goo.gl/PPiAGBaQ8wvVWE7Z7)
 
 thanks goes to 
 
