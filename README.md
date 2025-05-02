@@ -3,14 +3,12 @@
 Do not use this for any illegal.
 I am not responsible for any laws you break.
 
-Some Subghz files i had to remove because of people who cant use them properly.
+Some Subghz files I had to remove because of people who cant use them properly.
 This is why we can't have nice things.
 
 Some thing in here are mine but a little amount.
 
 If there is something you want to add go to my discord https://discord.gg/Jr3feT4uG4
-
-![Alt text](https://images.app.goo.gl/PPiAGBaQ8wvVWE7Z7)
 
 thanks goes to 
 
