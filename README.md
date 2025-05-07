@@ -1,16 +1,14 @@
 ### Disclaimer
 
-I want to make it very clear that **many of these files were pulled from other public repositories**. This project is a **compilation**, not entirely original work.
+This repository is primarily a **compilation of files sourced from various public repositories**. While some content is my own, **the majority of the work belongs to others** and is credited accordingly.
 
-**Do not use any of these files for illegal purposes.**  
-I am **not responsible** for any misuse or laws you choose to break.
+**Please do not use any of these files for illegal activities.**  
+I take **no responsibility** for how this material is used or for any laws that may be broken as a result.
 
-Some **SubGHz files** were removed due to misuse by others.  
+Certain **SubGHz files** have been removed due to past misuse.  
 _This is why we can't have nice things._
 
-While a few things in this repo are my own work, **most content belongs to others**.
-
-If you'd like to contribute or discuss, join my Discord:  
+If you’d like to contribute or have questions, feel free to join the discussion on Discord:  
 **[https://discord.gg/Jr3feT4uG4](https://discord.gg/Jr3feT4uG4)**
 
 ---
