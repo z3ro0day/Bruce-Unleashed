@@ -9,7 +9,7 @@ Certain **SubGHz files** have been removed due to past misuse.
 _This is why we can't have nice things._
 
 If you’d like to contribute or have questions, feel free to join the discussion on Discord:  
-**[https://discord.gg/Jr3feT4uG4](https://discord.gg/Jr3feT4uG4)**
+**[discord link](https://discord.gg/svcybf96)**
 
 ---
 
