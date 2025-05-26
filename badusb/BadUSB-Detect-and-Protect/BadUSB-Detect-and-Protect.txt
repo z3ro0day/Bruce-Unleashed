@@ -1,0 +1,21 @@
+REM Title: BadUSB Detect and Protect
+REM Author: @beigeworm | https://github.com/beigeworm
+REM Description: This script runs passively in the background waiting for any new usb devices.
+REM Description: When a new USB device is connected to the machine this script monitors keypresses for 30 seconds.
+REM Description: If there are 15 or more keypresses detected within 200 milliseconds it will attempt to disable the most recently connected USB device
+REM Description: LOGS are stored in 'usblogs' in 'temp' folder
+REM Target: Windows 10
+
+REM *REQUIREMENTS*
+REM admin required for disable USB function.
+
+REM some setup for dukie script.
+DEFAULT_DELAY 100
+
+REM open powershell (remove -W Hidden to show the window).
+GUI r
+DELAY 750
+STRING powershell -Exec Bypass -C irm https://raw.githubusercontent.com/beigeworm/BadUSB-Files-For-FlipperZero/main/BadUSB-Detect-and-Protect/main.ps1 | iex
+CTRL-SHIFT ENTER
+DELAY 2500
+ALT y
