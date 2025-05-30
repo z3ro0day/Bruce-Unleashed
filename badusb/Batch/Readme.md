@@ -22,15 +22,10 @@ That said, I’ve included them here *in case they’re useful*, or if someone w
 The scripts are uploaded with a `.txt` extension to avoid automatic blocking or antivirus flags.  
 **To use them, just rename each file from `.txt` to `.bat`.**
 
-Example (Linux/macOS):
+Example (Windows10):
 
-```bash
-mv payload.txt payload.bat
-Or on Windows:
+payload.txt payload.bat
 
-cmd
-Copy code
-rename payload.txt payload.bat
 💬 Why This Exists
 Sometimes you just need quick and dirty payloads to:
 
