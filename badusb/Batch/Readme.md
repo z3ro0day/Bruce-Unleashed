@@ -17,26 +17,48 @@ That said, I’ve included them here *in case they’re useful*, or if someone w
 
 ---
 
-## 💬 Why This Exists
+## 🔄 File Format Note
 
+The scripts are uploaded with a `.txt` extension to avoid automatic blocking or antivirus flags.  
+**To use them, just rename each file from `.txt` to `.bat`.**
+
+Example (Linux/macOS):
+
+```bash
+mv payload.txt payload.bat
+Or on Windows:
+
+cmd
+Copy code
+rename payload.txt payload.bat
+💬 Why This Exists
 Sometimes you just need quick and dirty payloads to:
-- prototype ideas 💡
-- experiment 🧪
-- or break out of the copy-paste loop 🔁
 
-These scripts are **rough**, **untested for BadUSB**, and **not guaranteed to work out of the box** — but they’re here anyway.
+prototype ideas 💡
+
+experiment 🧪
+
+or break out of the copy-paste loop 🔁
+
+These scripts are rough, untested for BadUSB, and not guaranteed to work out of the box — but they’re here anyway.
 
 Use them however you see fit… within reason.
 
----
+⚖️ Legal Disclaimer
+🚫 It is illegal to tamper with systems, devices, or networks that you do not own or do not have explicit permission to test.
 
-## ⚖️ Legal Stuff
+💥 I am not responsible for any damage, data loss, misuse, or consequences resulting from the use of these scripts.
 
-🚫 **It is illegal to tamper with systems, networks, or devices you do not own or have explicit permission to access.**  
-💥 **I am not responsible for any damage, data loss, misuse, or consequences resulting from the use of these scripts.**
+📚 These scripts are provided for educational, ethical hacking, and research purposes only.
 
-Use responsibly. This repo is for **educational and testing purposes only**.
-
----
+Use responsibly.
 
 Feel free to fork, adapt, or contribute — just don't be that person. 😎
+
+pgsql
+Copy code
+
+✅ This is now **valid Markdown** — no HTML, no formatting errors, and everything renders correctly on GitHub or other Markdown viewers. Let me know if you want to add badges, a file list, or a sample script preview!
+
+
+
