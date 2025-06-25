@@ -18,3 +18,4 @@ _This is why we can't have nice things._
 3. [pr3y](https://github.com/pr3y/Bruce/tree/main/sd_files)  
 
 For their original files and contributions.
+@pr3y
