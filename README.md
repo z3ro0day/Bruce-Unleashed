@@ -10,6 +10,8 @@ _This is why we can't have nice things._
 
 
 ---
+Join my discord if you want to add something. [Discord](https://discord.gg/UZupD5qyAa)
+
 
 ### Thanks to:
 
