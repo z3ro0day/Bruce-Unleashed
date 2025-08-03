@@ -1,3 +1,5 @@
+## Creator [personwithbeans](https://github.com/personwithbeans/Bruce-Key-Copier/tree/main)
+
 I'n new to JavaScript only realy knew a bit a python so enjoy my probably crappy code
 
 Thank's to icy.1 on discord for providing an example just demonstrating rendering lines for me to start working of off.
