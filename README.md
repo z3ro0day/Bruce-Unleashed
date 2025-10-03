@@ -18,7 +18,7 @@ Join my discord if you want to add something. [Discord](https://discord.gg/UZupD
 1. [@FalsePhilosopher](https://github.com/FalsePhilosopher)  
 2. [@UberGuidoZ](https://github.com/UberGuidoZ)  
 3. [@pr3y](https://github.com/pr3y/Bruce/tree/main/sd_files)  
-4. [@personwithbeans]https://github.com/personwithbeans/Bruce-Key-Copier/tree/main)
+4. [@personwithbeans](https://github.com/personwithbeans/Bruce-Key-Copier/tree/main)
 
 For their original files and contributions.
 ## BTC Address: bc1q7evvm5gx5xrh3ssfxh0htwzr49tx64cwzl6vz0
