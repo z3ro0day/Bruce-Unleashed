@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3xp-l01t // Bruce Firmware File Pack</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --panel: #0d1117;
+    --border: #1e2d3d;
+    --accent: #00ff88;
+    --accent2: #00c8ff;
+    --warn: #ff6b35;
+    --dim: #3d5a73;
+    --text: #c9d8e8;
+    --text-dim: #4a6880;
+    --folder: #00c8ff;
+    --file: #00ff88;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* Header */
+  header {
+    border: 1px solid var(--border);
+    border-bottom: 2px solid var(--accent);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(0,255,136,0.04), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    animation: scanH 3s linear infinite;
+  }
+
+  @keyframes scanH {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(14px, 3.5vw, 24px);
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(0,255,136,0.4);
+  }
+
+  .repo-meta {
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .repo-meta span { color: var(--accent2); }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(0,200,255,0.04);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    margin-bottom: 12px;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .breadcrumb-item {
+    color: var(--accent2);
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+  }
+
+  .breadcrumb-item:hover { color: #fff; text-decoration-color: var(--accent2); }
+  .breadcrumb-sep { color: var(--dim); }
+  .breadcrumb-current { color: var(--text); }
+
+  /* File list */
+  .file-list {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    overflow: hidden;
+  }
+
+  .list-header {
+    display: grid;
+    grid-template-columns: 32px 1fr auto auto;
+    gap: 16px;
+    padding: 10px 16px;
+    background: rgba(0,200,255,0.06);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .file-item {
+    display: grid;
+    grid-template-columns: 32px 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .file-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: rgba(0,255,136,0.06);
+    transition: width 0.2s;
+  }
+
+  .file-item:hover::before { width: 100%; }
+  .file-item:hover { border-left: 2px solid var(--accent); padding-left: 14px; }
+  .file-item:hover .file-name { color: #fff; }
+  .file-item:last-child { border-bottom: none; }
+
+  .file-icon { font-size: 16px; text-align: center; }
+
+  .file-name {
+    font-size: 14px;
+    color: var(--text);
+    transition: color 0.15s;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-name.is-dir { color: var(--folder); }
+  .file-name.is-file { color: var(--file); }
+
+  .file-size {
+    font-size: 11px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .dl-btn {
+    background: transparent;
+    border: 1px solid var(--dim);
+    color: var(--text-dim);
+    padding: 4px 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  .dl-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 8px rgba(0,255,136,0.2);
+  }
+
+  /* Loading / empty */
+  .loading {
+    padding: 40px;
+    text-align: center;
+    color: var(--accent);
+  }
+
+  .loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    animation: dots 1.5s infinite;
+  }
+
+  @keyframes dots {
+    0%  { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+  }
+
+  .error {
+    padding: 24px;
+    color: var(--warn);
+    border-left: 3px solid var(--warn);
+    background: rgba(255,107,53,0.06);
+    font-size: 13px;
+  }
+
+  /* File viewer */
+  .file-viewer {
+    border: 1px solid var(--border);
+    margin-top: 12px;
+    background: var(--panel);
+  }
+
+  .viewer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,200,255,0.04);
+    font-size: 12px;
+    color: var(--text-dim);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .viewer-header strong { color: var(--accent2); }
+
+  .viewer-content {
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #adc8e0;
+  }
+
+  .viewer-content::-webkit-scrollbar { width: 4px; }
+  .viewer-content::-webkit-scrollbar-track { background: var(--bg); }
+  .viewer-content::-webkit-scrollbar-thumb { background: var(--dim); }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(0,200,255,0.03);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .status-bar .live {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Back button */
+  .back-btn {
+    background: transparent;
+    border: 1px solid var(--dim);
+    color: var(--text-dim);
+    padding: 6px 14px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .back-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent);
+    color: #000;
+    padding: 10px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    font-weight: bold;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s;
+    border-left: 4px solid #000;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    .list-header { display: none; }
+    .file-item { grid-template-columns: 28px 1fr auto; }
+    .file-size { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-top">
+      <div class="status-dot"></div>
+      <h1>BRUCE-FIRMWARE-FILE-PACK</h1>
+    </div>
+    <div class="repo-meta">
+      3XP-L01T &nbsp;|&nbsp; BRANCH: <span>master</span> &nbsp;|&nbsp; LICENSE: <span>GPL-3.0</span>
+    </div>
+  </header>
+
+  <div class="breadcrumb" id="breadcrumb"></div>
+
+  <div id="back-wrap"></div>
+
+  <div class="file-list" id="file-list">
+    <div class="loading">INITIALIZING CONNECTION</div>
+  </div>
+
+  <div id="file-viewer"></div>
+
+  <div class="status-bar">
+    <span class="live"><span class="status-dot"></span> LIVE &mdash; GitHub API</span>
+    <span id="status-text">Fetching repository data...</span>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const OWNER = '3xp-l01t';
+const REPO  = 'Bruce-Firmware-File-Pack';
+const API   = 'https://api.github.com';
+
+let pathStack = [];
+
+const ICONS = {
+  dir:'📁', md:'📝', txt:'📄', py:'🐍', js:'📜', json:'📋',
+  sh:'⚙️', c:'🔧', h:'🔧', cpp:'🔧', png:'🖼️', jpg:'🖼️',
+  gif:'🖼️', zip:'📦', bin:'💾', fap:'📦', sub:'📡',
+  ir:'🌡️', nfc:'🔐', html:'🌐', css:'🎨', xml:'📋'
+};
+
+function $(id) { return document.getElementById(id); }
+
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function setStatus(msg) { $('status-text').textContent = msg; }
+
+function getIcon(item) {
+  if (item.type === 'dir') return ICONS.dir;
+  const ext = (item.name.split('.').pop() || '').toLowerCase();
+  return ICONS[ext] || '📄';
+}
+
+function formatSize(b) {
+  if (!b) return '';
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+  return (b / 1048576).toFixed(1) + ' MB';
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderBreadcrumb() {
+  const bc = $('breadcrumb');
+  bc.innerHTML = '';
+
+  const root = document.createElement('span');
+  root.className = pathStack.length ? 'breadcrumb-item' : 'breadcrumb-current';
+  root.textContent = '~ ' + REPO;
+  if (pathStack.length) {
+    root.onclick = () => { pathStack = []; $('file-viewer').innerHTML = ''; renderBreadcrumb(); loadDir(''); };
+  }
+  bc.appendChild(root);
+
+  pathStack.forEach((seg, i) => {
+    const sep = document.createElement('span');
+    sep.className = 'breadcrumb-sep';
+    sep.textContent = ' / ';
+    bc.appendChild(sep);
+
+    const item = document.createElement('span');
+    item.className = i === pathStack.length - 1 ? 'breadcrumb-current' : 'breadcrumb-item';
+    item.textContent = seg;
+    if (i < pathStack.length - 1) {
+      item.onclick = () => {
+        pathStack = pathStack.slice(0, i + 1);
+        $('file-viewer').innerHTML = '';
+        renderBreadcrumb();
+        loadDir(pathStack.join('/'));
+      };
+    }
+    bc.appendChild(item);
+  });
+}
+
+async function loadDir(path) {
+  const fl = $('file-list');
+  const bw = $('back-wrap');
+  fl.innerHTML = '<div class="loading">FETCHING CONTENTS</div>';
+  $('file-viewer').innerHTML = '';
+
+  try {
+    const url = `${API}/repos/${OWNER}/${REPO}/contents${path ? '/' + path : ''}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    const items = await res.json();
+
+    items.sort((a, b) => {
+      if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    setStatus(`${items.length} items in /${path || ''}`);
+
+    bw.innerHTML = pathStack.length > 0
+      ? `<button class="back-btn" onclick="goBack()">← BACK</button>`
+      : '';
+
+    if (items.length === 0) {
+      fl.innerHTML = '<div class="empty">[ EMPTY DIRECTORY ]</div>';
+      return;
+    }
+
+    fl.innerHTML = `
+      <div class="list-header">
+        <span></span>
+        <span>NAME</span>
+        <span>SIZE</span>
+        <span>ACTION</span>
+      </div>`;
+
+    items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'file-item';
+
+      const icon = document.createElement('span');
+      icon.className = 'file-icon';
+      icon.textContent = getIcon(item);
+
+      const name = document.createElement('span');
+      name.className = `file-name ${item.type === 'dir' ? 'is-dir' : 'is-file'}`;
+      name.textContent = item.type === 'dir' ? item.name + '/' : item.name;
+
+      const size = document.createElement('span');
+      size.className = 'file-size';
+      size.textContent = item.type === 'file' ? formatSize(item.size) : '—';
+
+      const btn = document.createElement('button');
+      btn.className = 'dl-btn';
+      btn.textContent = item.type === 'dir' ? 'ZIP ↓' : 'DL ↓';
+      btn.onclick = e => {
+        e.stopPropagation();
+        item.type === 'dir' ? downloadFolder(item) : downloadFile(item);
+      };
+
+      row.appendChild(icon);
+      row.appendChild(name);
+      row.appendChild(size);
+      row.appendChild(btn);
+
+      row.onclick = item.type === 'dir'
+        ? () => { pathStack.push(item.name); renderBreadcrumb(); loadDir(pathStack.join('/')); }
+        : () => viewFile(item);
+
+      fl.appendChild(row);
+    });
+
+  } catch(e) {
+    fl.innerHTML = `<div class="error">⚠ CONNECTION FAILED: ${e.message}</div>`;
+    setStatus('Error fetching data');
+  }
+}
+
+function goBack() {
+  pathStack.pop();
+  renderBreadcrumb();
+  loadDir(pathStack.join('/'));
+}
+
+async function viewFile(item) {
+  const viewer = $('file-viewer');
+  viewer.innerHTML = `<div class="file-viewer"><div class="loading">LOADING FILE</div></div>`;
+
+  const binaryExts = ['png','jpg','jpeg','gif','bmp','bin','fap','zip','tar','gz','img'];
+  const ext = (item.name.split('.').pop() || '').toLowerCase();
+
+  if (binaryExts.includes(ext)) {
+    viewer.innerHTML = `
+      <div class="file-viewer">
+        <div class="viewer-header">
+          <strong>${item.name}</strong>
+          <span>${formatSize(item.size)}</span>
+          <button class="dl-btn" id="dlv">DOWNLOAD ↓</button>
+        </div>
+        <div class="viewer-content" style="color:var(--text-dim);font-style:italic">[ BINARY FILE — Use download button ]</div>
+      </div>`;
+    $('dlv').onclick = () => downloadFile(item);
+    return;
+  }
+
+  try {
+    const res = await fetch(item.download_url);
+    const text = await res.text();
+    const preview = text.length > 10000 ? text.slice(0, 10000) + '\n\n... [TRUNCATED]' : text;
+
+    viewer.innerHTML = `
+      <div class="file-viewer">
+        <div class="viewer-header">
+          <strong>${item.name}</strong>
+          <span>${formatSize(item.size)}</span>
+          <button class="dl-btn" id="dlv">DOWNLOAD ↓</button>
+        </div>
+        <div class="viewer-content">${escHtml(preview)}</div>
+      </div>`;
+    $('dlv').onclick = () => downloadFile(item);
+  } catch {
+    viewer.innerHTML = `<div class="file-viewer"><div class="error">⚠ Cannot preview this file.</div></div>`;
+  }
+}
+
+function downloadFile(item) {
+  if (!item.download_url) { showToast('⚠ No download URL'); return; }
+  const a = document.createElement('a');
+  a.href = item.download_url;
+  a.download = item.name;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`↓ DOWNLOADING: ${item.name}`);
+}
+
+function downloadFolder(item) {
+  const url = `https://github.com/${OWNER}/${REPO}/tree/master/${item.path}`;
+  showToast('↗ OPENING GITHUB — use Download ZIP');
+  window.open(url, '_blank');
+}
+
+// Init
+renderBreadcrumb();
+loadDir('');
+</script>
+</body>
+</html>
